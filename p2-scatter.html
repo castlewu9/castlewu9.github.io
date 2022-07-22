@@ -33,7 +33,7 @@
 
     <script type="module">
       import addSidebar from "./src/navBar.js";
-      addSidebar("CO2", 0);
+      addSidebar("CO2", 2);
     </script>
 
     <script>
@@ -54,7 +54,8 @@
         })
         .attr("r", (d) => {
           return d;
-        });
+        })
+        .attr("fill", "red");
     </script>
   </body>
 </html>

@@ -33,10 +33,11 @@
 
     <script type="module">
       import addSidebar from "./src/navBar.js";
-      addSidebar("CO2", 0);
+      addSidebar("CO2", 1);
     </script>
 
     <script>
+      // addSidebar("CO2 emission data", 1);
       var data = [4, 8, 15, 16, 23, 42];
       const svg = d3
         .select("#myGraph")
@@ -54,7 +55,8 @@
         })
         .attr("r", (d) => {
           return d;
-        });
+        })
+        .attr("fill", "blue");
     </script>
   </body>
 </html>
