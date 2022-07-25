@@ -1,26 +1,4 @@
-const navItems = [
-  {
-    text: "page #1: World Total",
-    to: "index.html",
-    icon: "./styles/line-graph.svg",
-  },
-  {
-    text: "page #2: Fuel",
-    to: "p1-country.html",
-    icon: "./styles/bar-chart.svg",
-  },
-  {
-    text: "page #3: Per Capita",
-    to: "p2-scatter.html",
-    icon: "./styles/scatter-plot.svg",
-  },
-];
-
-const personInfo = {
-  name: "swpark5",
-  link: "#",
-  icon: "./styles/person.svg",
-};
+import * as config from "./config.js";
 
 function addNavItem(select, text, to, icon) {
   const itemList = document.createElement("li");
@@ -32,8 +10,8 @@ function addNavItem(select, text, to, icon) {
   image.src = icon;
   image.className = "nav-icon";
   image.alt = "nav-icon";
-  image.width = "16";
-  image.height = "16";
+  image.width = "18";
+  image.height = "18";
 
   itemTo.appendChild(image);
   itemTo.appendChild(document.createTextNode(text));
@@ -68,12 +46,12 @@ function addPerson(name, icon, link) {
   return person;
 }
 
-function addSidebar(subject, selectIndex) {
+function addSidebar(selectIndex) {
   const sidebar = document.getElementById("sidebar");
 
   const title = document.createElement("div");
   title.className = "nav-title";
-  title.innerHTML = subject;
+  title.innerHTML = config.navTitle;
   sidebar.appendChild(title);
 
   sidebar.appendChild(addDivider());
@@ -81,19 +59,25 @@ function addSidebar(subject, selectIndex) {
   const navFrame = document.createElement("ul");
   navFrame.className = "nav-items";
 
-  [0, 1, 2].forEach((idx) => {
+  config.navItems.forEach((val, idx) => {
     const item = addNavItem(
       idx === selectIndex ? true : false,
-      navItems[idx].text,
-      navItems[idx].to,
-      navItems[idx].icon
+      val.text,
+      val.to,
+      val.icon
     );
     navFrame.appendChild(item);
   });
 
   sidebar.appendChild(navFrame);
   sidebar.append(addDivider());
-  sidebar.append(addPerson(personInfo.name, personInfo.icon, personInfo.link));
+  sidebar.append(
+    addPerson(
+      config.personInfo.name,
+      config.personInfo.icon,
+      config.personInfo.link
+    )
+  );
 }
 
 export default addSidebar;

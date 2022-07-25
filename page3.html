@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>CS416 Narrative Visualization</title>
+    <link href="./styles/css/styles.css" rel="stylesheet" />
+    <link href="./styles/css/chart3.css" rel="stylesheet" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"
+      integrity="sha512-iBAeBWWWFb8HqSBcrqcz98iIpuVH1la39dEYHtyQ/pGpeCQTQVvLJOWAuhv2Q7JSHp9k7hWA7sGxU3hHJe+tFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+
+  <body>
+    <main>
+      <div id="sidebar" class="nav-bg"></div>
+      <div id="divider" class="page-divider"></div>
+      <div id="content" class="content-frame">
+        <div id="content-desc">
+          <h1>CO2 emissions per capita</h1>
+          <h3>
+            Carbon dioxide (CO2) emissions from fossil fuels and industry.
+          </h3>
+          <p>
+            In this chart we see the growth of global emissions from the
+            mid-18th century through to today. Carbon dioxide (CO2) emissions in
+            2020 amounted to approximately 35 billion tons, an increase of
+            almost 18 times compared to 1900.
+          </p>
+          <p>
+            Click the radio buttons to see the annual CO2 emissions of global
+            data or per fuel type.
+          </p>
+          <div>
+            <form name="radioForm">
+              <label style="margin-right: 10px">
+                <input
+                  type="radio"
+                  name="radioBtnGroup"
+                  value="production"
+                  id="radio-prod-id"
+                  style="margin-right: 6px"
+                />Production-based CO2 emission
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="radioBtnGroup"
+                  value="consumption"
+                  id="radio-consum-id"
+                  style="margin-right: 6px"
+                />Consumption-based CO2 emission
+              </label>
+            </form>
+          </div>
+          <br /><br />
+        </div>
+        <svg id="content-graph" style="outline: solid darkgray"></svg>
+        <div id="content-tooltip" class="tooltip"></div>
+      </div>
+    </main>
+
+    <script type="module">
+      import addSidebar from "./js/navBar.js";
+      import { clearGraphs } from "./js/graph.js";
+      import {
+        productionCo2PerCapita,
+        consumptionCo2PerCapita,
+      } from "./js/chart3.js";
+
+      addSidebar(3);
+      productionCo2PerCapita();
+
+      const selectionGroup = document.radioForm.radioBtnGroup;
+      selectionGroup.forEach((sel) => {
+        sel.onclick = (e) => {
+          const { target } = e;
+          clearGraphs();
+
+          if (target.value == "production") {
+            console.log("production");
+            productionCo2PerCapita();
+          } else {
+            console.log("consumption");
+            consumptionCo2PerCapita();
+          }
+        };
+      });
+    </script>
+  </body>
+</html>

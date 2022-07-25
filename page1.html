@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>CS416 Narrative Visualization</title>
+    <link href="./styles/css/styles.css" rel="stylesheet" />
+    <link href="./styles/css/chart1.css" rel="stylesheet" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"
+      integrity="sha512-iBAeBWWWFb8HqSBcrqcz98iIpuVH1la39dEYHtyQ/pGpeCQTQVvLJOWAuhv2Q7JSHp9k7hWA7sGxU3hHJe+tFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+
+  <body>
+    <main>
+      <div id="sidebar" class="nav-bg"></div>
+      <div id="divider" class="page-divider"></div>
+      <div id="content" class="content-frame">
+        <div id="content-desc">
+          <h1>Global CO2 emissions</h1>
+          <h3></h3>
+          <p>
+            In this chart we see the growth of global emissions from the
+            mid-18th century through to today. Carbon dioxide (CO2) emissions in
+            2020 amounted to approximately 35 billion tons, an increase of more
+            than <b>150</b> times compared to 1850.
+          </p>
+          <p>
+            If you click on <b>CO2 emissions per fuel type</b>, you can check
+            the CO2 emissions from fossil fuels. The graph will show that coal,
+            oil, and gas account for the largest share.
+          </p>
+          <div>
+            <form name="radioForm">
+              <label style="margin-right: 10px">
+                <input
+                  type="radio"
+                  name="radioBtnGroup"
+                  value="global"
+                  id="radio-global-id"
+                  style="margin-right: 6px"
+                />Global CO2 emissions
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="radioBtnGroup"
+                  value="fuel"
+                  id="radio-fuel-id"
+                  style="margin-right: 6px"
+                />CO2 emissions per fuel type
+              </label>
+            </form>
+          </div>
+          <br /><br />
+        </div>
+        <svg id="content-graph" style="outline: solid darkgray"></svg>
+        <div id="content-tooltip" class="tooltip"></div>
+      </div>
+    </main>
+
+    <script type="module">
+      import addSidebar from "./js/navBar.js";
+      import { clearGraphs } from "./js/graph.js";
+      import globalCo2Emissions from "./js/chart_1_1.js";
+      import fuelCo2Emissions from "./js/chart_1_2.js";
+
+      addSidebar(1);
+      globalCo2Emissions();
+
+      const selectionGroup = document.radioForm.radioBtnGroup;
+      selectionGroup.forEach((sel) => {
+        sel.onclick = (e) => {
+          const { target } = e;
+          clearGraphs();
+
+          if (target.value == "global") {
+            globalCo2Emissions();
+          } else {
+            fuelCo2Emissions();
+          }
+        };
+      });
+    </script>
+  </body>
+</html>

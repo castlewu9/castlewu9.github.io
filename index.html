@@ -2,59 +2,74 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
     <title>CS416 Narrative Visualization</title>
-    <link href="./styles/styles.css" rel="stylesheet" />
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link href="./styles/css/styles.css" rel="stylesheet" />
   </head>
 
   <body>
     <main>
       <div id="sidebar" class="nav-bg"></div>
-      <div class="page-divider"></div>
-      <div class="page-main">
-        <h1>Simple Sidebar</h1>
-        <p>
-          The starting state of the menu will appear collapsed on smaller
-          screens, and will appear non-collapsed on larger screens. When toggled
-          using the button below, the menu will change.
-        </p>
-        <p>
-          Make sure to keep all page content within the
-          <code>#page-content-wrapper</code>
-          . The top navbar is optional, and just for demonstration. Just create
-          an element with the
-          <code>#sidebarToggle</code>
-          ID which will toggle the menu when clicked.
-        </p>
+      <div id="divider" class="page-divider"></div>
+      <div id="content" class="content-frame">
+        <div id="content-desc">
+          <h1>Visualization of Carbon Dioxide Emissions</h1>
+          <br />
+          <h3>Objective</h3>
+          <p>
+            This project aims to show Carbon dioxide (CO2) emissions from fossil
+            fuels and industry since the early 1800 per year, worldwide, in the
+            country, and by capita.
+          </p>
+          <br />
+          <h3>Design</h3>
+          <p>
+            The webpage follows an interactive slideshow, one of the narrative
+            visualization structures from the CS416 Data Visualization class of
+            UIUC. This allows users to navigate the pages and view changes in
+            CO2 emissions by various factors.
+          </p>
+          <p>
+            Users can navigate the pages by clicking list items in the left
+            sidebar. The main page is the <b>Introduction</b>, and the sidebar
+            allows users to navigate through all the pages in any order and
+            quickly return to the first page.
+          </p>
+          <p>
+            The webpage is designed to best fit the desktop. When the window
+            size of the browser changes, users can use the refresh button to
+            redraw graphs on each page in order to fit them into a new window
+            size.
+          </p>
+          <br />
+          <h3>Data</h3>
+          <p>
+            The CO2 dataset includes annual carbon dioxide emissions for each
+            country in the world, including emissions per capita and fuel types
+            such as oil, coal, natural gas, and etc. The original data can be
+            downloaded from the
+            <a
+              href="https://www.globalcarbonproject.org/carbonbudget/21/data.htm"
+              >Global Carbon Project</a
+            >.
+          </p>
 
-        <div id="myGraph"></div>
+          <br />
+          <h3>By</h3>
+          <ul>
+            <li>Sung Woo Park (NetID: swpark5)</li>
+            <li>Date: July 2022</li>
+            <li>Course: CS 416 Data Visualization</li>
+            <li>Source: github.castlewu.com/</li>
+          </ul>
+        </div>
       </div>
     </main>
 
     <script type="module">
-      import addSidebar from "./src/navBar.js";
-      addSidebar("CO2", 0);
-    </script>
+      import addSidebar from "./js/navBar.js";
 
-    <script>
-      var data = [4, 8, 15, 16, 23, 42];
-      const svg = d3
-        .select("#myGraph")
-        .append("svg")
-        .attr("height", 300)
-        .attr("width", 300);
-      svg
-        .selectAll("circle")
-        .data(data)
-        .enter()
-        .append("circle")
-        .attr("cx", 50)
-        .attr("cy", (_, i) => {
-          return 50 * (i + 1);
-        })
-        .attr("r", (d) => {
-          return d;
-        });
+      addSidebar(0);
     </script>
   </body>
 </html>

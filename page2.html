@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>CS416 Narrative Visualization</title>
+    <link href="./styles/css/styles.css" rel="stylesheet" />
+    <link href="./styles/css/chart2.css" rel="stylesheet" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"
+      integrity="sha512-iBAeBWWWFb8HqSBcrqcz98iIpuVH1la39dEYHtyQ/pGpeCQTQVvLJOWAuhv2Q7JSHp9k7hWA7sGxU3hHJe+tFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+
+  <body>
+    <main>
+      <div id="sidebar" class="nav-bg"></div>
+      <div id="divider" class="page-divider"></div>
+      <div id="content" class="content-frame">
+        <div id="content-desc">
+          <h1>CO2 emissions per country</h1>
+          <p>
+            This graph shows the annual CO2 emissions of the top 5 countries as
+            of 2020. China, the United States, India, Russia, and Japan had the
+            highest annual emissions in that order, and it can be seen that the
+            emission of China and India, which are developing countries, rapidly
+            increased after the 2000s. We can also observe that the emissions
+            gradually decline in the remaining three countries.
+          </p>
+          <p>
+            <b>Tip: </b>The detailed information will be popped up when you move
+            your mouse over the red bold text in the graph.
+          </p>
+          <br />
+        </div>
+        <svg id="content-graph" style="outline: solid darkgray"></svg>
+        <div id="content-tooltip" class="tooltip"></div>
+      </div>
+    </main>
+
+    <script type="module">
+      import addSidebar from "./js/navBar.js";
+      import countryCo2Emissions from "./js/chart2.js";
+
+      addSidebar(2);
+      countryCo2Emissions();
+    </script>
+  </body>
+</html>
