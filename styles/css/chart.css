@@ -6,6 +6,12 @@
   stroke-width: 2;
 }
 
+.multiline {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.8px;
+}
+
 .dot {
   fill: #212529;
 }
@@ -34,6 +40,18 @@
   background: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 10px;
-  min-width: 30px;
+  min-width: 150px;
   max-width: 400px;
 }
+/* 
+.annotation text {
+  fill: #e8336d;
+  font-size: medium;
+  /* "1": "#E8336D",
+  "8": "#00897b" */
+} */
+/* 
+.annotation-title {
+  font-weight: bold;
+  fill: #00897b;
+} */

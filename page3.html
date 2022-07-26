@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>CS416 Narrative Visualization</title>
     <link href="./styles/css/styles.css" rel="stylesheet" />
-    <link href="./styles/css/chart3.css" rel="stylesheet" />
+    <link href="./styles/css/chart.css" rel="stylesheet" />
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"
@@ -22,18 +22,17 @@
       <div id="content" class="content-frame">
         <div id="content-desc">
           <h1>CO2 emissions per capita</h1>
-          <h3>
-            Carbon dioxide (CO2) emissions from fossil fuels and industry.
-          </h3>
           <p>
-            In this chart we see the growth of global emissions from the
-            mid-18th century through to today. Carbon dioxide (CO2) emissions in
-            2020 amounted to approximately 35 billion tons, an increase of
-            almost 18 times compared to 1900.
+            This page shows the annual CO2 emissions per capita. Countries that
+            rank high in per capita emissions are those located near the equator
+            or in the Middle East, such as Qatar. It is not suitable for
+            comparison due to its small population and desert climate with
+            higher energy consumption. Therefore, emissions per capita are shown
+            for the countries with the highest emissions in 2020.
           </p>
           <p>
-            Click the radio buttons to see the annual CO2 emissions of global
-            data or per fuel type.
+            Click the buttons to see the production-based or consumption-based
+            per capita.
           </p>
           <div>
             <form name="radioForm">
@@ -44,6 +43,7 @@
                   value="production"
                   id="radio-prod-id"
                   style="margin-right: 6px"
+                  checked="checked"
                 />Production-based CO2 emission
               </label>
               <label>
@@ -57,9 +57,9 @@
               </label>
             </form>
           </div>
-          <br /><br />
+          <br />
         </div>
-        <svg id="content-graph" style="outline: solid darkgray"></svg>
+        <svg id="content-graph" width="0" height="0"></svg>
         <div id="content-tooltip" class="tooltip"></div>
       </div>
     </main>
@@ -67,10 +67,8 @@
     <script type="module">
       import addSidebar from "./js/navBar.js";
       import { clearGraphs } from "./js/graph.js";
-      import {
-        productionCo2PerCapita,
-        consumptionCo2PerCapita,
-      } from "./js/chart3.js";
+      import productionCo2PerCapita from "./js/chart3_1.js";
+      import consumptionCo2PerCapita from "./js/chart3_2.js";
 
       addSidebar(3);
       productionCo2PerCapita();

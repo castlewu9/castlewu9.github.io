@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>CS416 Narrative Visualization</title>
     <link href="./styles/css/styles.css" rel="stylesheet" />
-    <link href="./styles/css/chart2.css" rel="stylesheet" />
+    <link href="./styles/css/chart.css" rel="stylesheet" />
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"
@@ -30,13 +30,9 @@
             increased after the 2000s. We can also observe that the emissions
             gradually decline in the remaining three countries.
           </p>
-          <p>
-            <b>Tip: </b>The detailed information will be popped up when you move
-            your mouse over the red bold text in the graph.
-          </p>
           <br />
         </div>
-        <svg id="content-graph" style="outline: solid darkgray"></svg>
+        <svg id="content-graph" width="0" height="0"></svg>
         <div id="content-tooltip" class="tooltip"></div>
       </div>
     </main>

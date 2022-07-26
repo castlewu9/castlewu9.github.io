@@ -28,7 +28,7 @@ main {
   display: flex;
   background-color: #2a2e31;
   padding: 1rem;
-  width: 280px;
+  width: 300px;
   flex-direction: column;
   flex-shrink: 0;
   overflow-y: auto;

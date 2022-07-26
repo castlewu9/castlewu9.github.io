@@ -16,7 +16,7 @@ function tooltipText(data) {
 
   if (data.year === "2020") {
     return `As the COVID-19 pandemic curbs economic and social activity across the world,
-     global carbon dioxide emissions in 2020 fell by approximately 5% year-over-year.
+     global carbon dioxide emissions in 2020 fell by approximately 6% year-over-year.
      <br/><br/>Year: ${data.year}<br/>CO2 emissions: ${emission} billion ton`;
   }
 
@@ -142,13 +142,10 @@ async function globalCo2Emissions() {
       },
       x: xScale(170) + config.margin.left,
       y: yScale(34e9) + config.margin.bottom,
-      dx: 0,
+      dx: 5,
       dy: 25,
     },
-  ].map((d) => {
-    d.color = "#E8336D";
-    return d;
-  });
+  ];
   graph.appendAnnotations(svg, annotations);
 }
 

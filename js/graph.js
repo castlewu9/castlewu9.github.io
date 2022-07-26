@@ -47,7 +47,7 @@ function appendTitle(svg, title) {
     .append("g")
     .attr("transform", `translate(${x}, ${y})`)
     .append("text")
-    .attr("style", "font: 1.2rem;font-weight:bold;fill:darkblue;")
+    .attr("style", "font-size:large;font-weight:bold;fill:darkblue;")
     .text(title);
 }
 
@@ -120,7 +120,10 @@ function createTooltipText(data, unit) {
       : `<b>${year}</b><br/>unit: ton<br/><br/>`;
 
   emission.forEach((c) => {
-    const val = unit === "bt" ? (c.count / 1e9).toFixed(2) : c.count.toFixed(2);
+    const val =
+      unit === "bt"
+        ? (c.count / 1e9).toFixed(2)
+        : parseFloat(c.count).toFixed(2);
     text = text + `${c.name}: ${val}<br/>`;
   });
   return text;
