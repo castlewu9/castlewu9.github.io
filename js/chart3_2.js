@@ -3,11 +3,15 @@ import * as graph from "./graph.js";
 
 const dataSource = "../data/co2-03-consum.csv";
 
-async function consumptionCo2PerCapita() {
+async function consumptionCo2PerCapita(worldChecked) {
   const data = await d3.csv(dataSource);
   const n = data.length;
 
-  const capitaData = data.columns.slice(1, 7).map((id) => {
+  const columns = worldChecked
+    ? data.columns.slice(1, 7)
+    : data.columns.slice(2, 7);
+
+  const capitaData = columns.map((id) => {
     return {
       id: id,
       values: data.map((v) => {
@@ -86,8 +90,9 @@ async function consumptionCo2PerCapita() {
       );
     });
 
-  const annotations = [
+  const description = [
     {
+      type: d3.annotationLabel,
       note: {
         label: `The concept of "consumption-based" emissions is adjusted to account for cross-border trade.
          When importing or exporting products, all CO2 emissions resulting from the production of products are
@@ -115,6 +120,9 @@ async function consumptionCo2PerCapita() {
         end: "dot",
       },
     },
+  ];
+
+  const legend = [
     {
       note: {
         label: "US",
@@ -149,14 +157,6 @@ async function consumptionCo2PerCapita() {
     },
     {
       note: {
-        label: "World",
-      },
-      x: xScale(2019) + config.margin.left + 30,
-      y: yScale(4.76) + config.margin.bottom - 10,
-      color: z("World"),
-    },
-    {
-      note: {
         label: "India",
       },
       x: xScale(2019) + config.margin.left + 30,
@@ -165,7 +165,22 @@ async function consumptionCo2PerCapita() {
     },
   ];
 
-  graph.appendAnnotations(svg, annotations);
+  svg.append("g").call(d3.annotation().annotations(description));
+
+  if (worldChecked) {
+    legend.push({
+      note: {
+        label: "World",
+      },
+      x: xScale(2019) + config.margin.left + 30,
+      y: yScale(4.76) + config.margin.bottom - 10,
+      color: z("World"),
+    });
+  }
+
+  svg
+    .append("g")
+    .call(d3.annotation().type(d3.annotationLabel).annotations(legend));
 }
 
 export default consumptionCo2PerCapita;

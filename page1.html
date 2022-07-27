@@ -30,9 +30,10 @@
             than <b>150</b> times compared to 1850.
           </p>
           <p>
-            If you click on <b>CO2 emissions per fuel type</b> button, you can
-            check the CO2 emissions from each fossil fuel. Also, you can see the
-            detailed information by mouse over the red dots.
+            You can see the detailed information by mouse over dots. Also, if
+            you click on
+            <b>CO2 emissions per fuel type</b> button, you can check the CO2
+            emissions from each fossil fuel.
           </p>
           <div>
             <form name="radioForm">
@@ -79,7 +80,7 @@
           const { target } = e;
           clearGraphs();
 
-          if (target.value == "global") {
+          if (target.value === "global") {
             globalCo2Emissions();
           } else {
             fuelCo2Emissions();

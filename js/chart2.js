@@ -3,6 +3,14 @@ import * as graph from "./graph.js";
 
 const dataSource = "../data/co2-02-country.csv";
 
+function showChina() {
+  return `<b>2000 - 2020 CO2 emission</b><br/>
+   <img src="./styles/images/Total_CO2.png" alt="CO2" style="margin:5px;"/><br/>
+   Since 2000, the CO2 emissions from China and the rest of the world have outpaced the combined emissions of the US and EU.
+   The output of the US and EU continue to decline while the rest are steadily rising.<br/>
+   "Ref.: the Wikipedia"`;
+}
+
 async function countryCo2Emissions() {
   const data = await d3.csv(dataSource);
   const n = data.length;
@@ -86,40 +94,7 @@ async function countryCo2Emissions() {
       );
     });
 
-  draw
-    .append("text")
-    .datum((d) => {
-      return { id: d.id, obj: d.values[d.values.length - 1] };
-    })
-    .attr("transform", (d) => {
-      const x = xScale(d.obj.year);
-      const y = yScale(d.obj.count);
-      return `translate(${x},${y})`;
-    })
-    .attr("style", (d) =>
-      d.id === "China" ? "font-weight:bold;fill:red;" : "fill:black;"
-    )
-    .attr("x", 8)
-    .attr("dy", "0.5em")
-    .text((d) => d.id)
-    .on("mouseover", () => graph.displayTooltip(null))
-    .on("mouseout", () => graph.displayTooltip("none"))
-    .on("mousemove", (d) => {
-      if (d.id == "China") {
-        graph.locateTooltip(
-          width * 0.55 + config.margin.left,
-          d3.event.pageY - 55
-        );
-        graph.displayTooltip("block");
-        graph.updateTooltip(`<b>2000 - 2020 CO2 emission</b><br/>
-        <img src="./styles/images/Total_CO2.png" alt="CO2" style="margin:5px;"/><br/>
-        Since 2000, the CO2 emissions from China and the rest of the world have outpaced the combined emissions of the US and EU.
-         The output of the US and EU continue to decline while the rest are steadily rising.<br/>
-         "Ref.: the Wikipedia"`);
-      }
-    });
-
-  const annotations = [
+  const description = [
     {
       type: d3.annotationCalloutElbow,
       note: {
@@ -129,8 +104,8 @@ async function countryCo2Emissions() {
         wrap: 250,
         padding: 3,
       },
-      x: xScale(1950) + config.margin.left,
-      y: yScale(3.5e9) + config.margin.bottom,
+      x: xScale(1930) + config.margin.left,
+      y: yScale(2.5e9) + config.margin.bottom,
       dy: -50,
       dx: -120,
       align: "left",
@@ -140,6 +115,7 @@ async function countryCo2Emissions() {
     },
     {
       note: {
+        type: d3.annotationLabel,
         title: "China",
         label: "In the 2000s, China's annual CO2 emissions increased rapidly.",
         wrap: 200,
@@ -155,7 +131,67 @@ async function countryCo2Emissions() {
       },
     },
   ];
-  graph.appendAnnotations(svg, annotations);
+
+  svg.append("g").call(d3.annotation().annotations(description));
+
+  const legend = [
+    {
+      note: {
+        label: "China",
+      },
+      x: xScale(2020) + config.margin.left + 30,
+      y: yScale(10.6e9) + config.margin.bottom - 10,
+      color: z("China"),
+      align: "left",
+    },
+    {
+      note: {
+        label: "US",
+      },
+      x: xScale(2020) + config.margin.left + 30,
+      y: yScale(4.7e9) + config.margin.bottom - 10,
+      color: z("US"),
+      align: "left",
+    },
+    {
+      note: {
+        label: "India",
+      },
+      x: xScale(2020) + config.margin.left + 30,
+      y: yScale(2.4e9) + config.margin.bottom - 10,
+      color: z("India"),
+      align: "left",
+    },
+    {
+      note: {
+        label: "Russia",
+      },
+      x: xScale(2020) + config.margin.left + 30,
+      y: yScale(1.6e9) + config.margin.bottom - 10,
+      color: z("Russia"),
+      align: "left",
+    },
+    {
+      note: {
+        label: "Japan",
+      },
+      x: xScale(2020) + config.margin.left + 30,
+      y: yScale(1.0e9) + config.margin.bottom - 10,
+      color: z("Japan"),
+      align: "left",
+    },
+  ];
+
+  svg
+    .append("g")
+    .call(d3.annotation().type(d3.annotationLabel).annotations(legend));
+
+  const tag = {
+    x: xScale(2020) + config.margin.left + 30,
+    y: yScale(11.0e9) + config.margin.bottom,
+    dir: "top",
+  };
+  graph.appendBadge(svg, tag, showChina());
 }
 
 export default countryCo2Emissions;

@@ -77,13 +77,47 @@ function appendAxis(svg, height, x, y) {
     );
 }
 
-function appendAnnotations(svg, annotations) {
-  const makeAnnotations = d3
-    .annotation()
-    .type(d3.annotationLabel)
-    .annotations(annotations);
+function appendBadge(svg, tag, htmlText) {
+  const badge = [
+    {
+      type: d3.annotationBadge,
+      x: tag.x,
+      y: tag.y,
+      subject: {
+        text: "?",
+        radius: 10,
+        x: tag.dir === "left" || tag.dir === "right" ? tag.dir : null,
+        y: tag.dir === "top" || tag.dir === "bottom" ? tag.dir : null,
+      },
+      color: ["#E8336D"],
+    },
+  ];
 
-  svg.append("g").call(makeAnnotations);
+  const w = getClientRect().width;
+  const h = getClientRect().height;
+
+  svg
+    .append("g")
+    .call(d3.annotation().annotations(badge))
+    .on("mouseover", () =>
+      d3.select(`#${tooltipElementId}`).style("display", null)
+    )
+    .on("mouseout", () =>
+      d3.select(`#${tooltipElementId}`).style("display", "none")
+    )
+    .on("mousemove", () => {
+      let x = w * 0.5 + config.margin.left;
+      const y = h * 0.4;
+
+      if (x < d3.event.pageX && x + 420 >= d3.event.pageX) {
+        x = d3.event.pageX + 10;
+      }
+      d3.select(`#${tooltipElementId}`)
+        .style("left", `${x}px`)
+        .style("top", `${y}px`);
+      d3.select(`#${tooltipElementId}`).style("display", "block");
+      d3.select(`#${tooltipElementId}`).html(htmlText);
+    });
 }
 
 function displayTooltip(display) {
@@ -119,6 +153,14 @@ function createTooltipText(data, unit) {
       ? `<b>${year}</b><br/>unit: billion ton<br/><br/>`
       : `<b>${year}</b><br/>unit: ton<br/><br/>`;
 
+  emission.sort((d1, d2) => {
+    const a = d1.count === "" ? 0 : parseFloat(d1.count);
+    const b = d2.count === "" ? 0 : parseFloat(d2.count);
+    if (a > b) return -1;
+    if (a < b) return 1;
+    return 0;
+  });
+
   emission.forEach((c) => {
     const val =
       unit === "bt"
@@ -140,7 +182,7 @@ export {
   createScales,
   appendTitle,
   appendAxis,
-  appendAnnotations,
+  appendBadge,
   displayTooltip,
   locateTooltip,
   updateTooltip,

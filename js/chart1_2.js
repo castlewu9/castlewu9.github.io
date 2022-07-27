@@ -3,6 +3,28 @@ import * as graph from "./graph.js";
 
 const dataSource = "../data/co2-01-fuel.csv";
 
+function showOilCrisis() {
+  return `<b>1973 & 1979 Oil Crises</b><br/>The first oil shock began in October 1973 to
+   target nations supported Israel during the Yom Kippur War.
+   In March 1974, the price of oil had risen nearly 300%, and caused an oil crisis.<br/>
+   <img src="./styles/images/Crude_oil_prices_since_1861.png" alt="oil" style="margin:5px;"/><br/>
+   Oil prices in USD, 1861–2015.<br/>Red, adjusted for inflation. Blue, not adjusted.<br/>
+   The above graph shows that oil prices rocketed since 1973. "Ref.: the Wikipedia".
+   <br/><br/>After two oil shocks, countries have tried to reduce their use of oil,
+   and oil consumption has been gradually slowing down since 1979.<br/>
+   `;
+}
+
+function showOthers() {
+  return `<b>Cement</b><br/>
+   To produce 1kg of cement, it is known that 0.9kg of CO2 is generated.</br></br>
+   <b>Flaring</b><br/>
+   Flaring is part of standard safety engineering for oil extraction. It generated 440 million tons of CO2 in 2020.<br></br>
+   <b>Other Industry</b><br/>
+   Other industry emits approximately 300 million ton in 2020.
+   `;
+}
+
 async function fuelCo2Emissions() {
   const data = await d3.csv(dataSource);
   const n = data.length;
@@ -86,7 +108,7 @@ async function fuelCo2Emissions() {
       );
     });
 
-  const annotations = [
+  const description = [
     {
       type: d3.annotationCalloutElbow,
       note: {
@@ -108,21 +130,25 @@ async function fuelCo2Emissions() {
       },
     },
     {
+      type: d3.annotationCallout,
       note: {
         label:
           "Oil, coal, and gas account for the majority of total CO2 emissions.",
-        wrap: 200,
+        wrap: 180,
         padding: 3,
       },
-      x: xScale(1973) + config.margin.left,
-      y: yScale(9e9) + config.margin.bottom,
-      dx: -30,
-      dy: -60,
+      x: xScale(2005) + config.margin.left,
+      y: yScale(13e9) + config.margin.bottom,
+      dx: -70,
+      dy: -20,
       align: "left",
       connector: {
         end: "dot",
       },
     },
+  ];
+
+  const legend = [
     {
       note: {
         label: "Coal",
@@ -178,7 +204,27 @@ async function fuelCo2Emissions() {
       align: "left",
     },
   ];
-  graph.appendAnnotations(svg, annotations);
+
+  svg.append("g").call(d3.annotation().annotations(description));
+  svg
+    .append("g")
+    .call(d3.annotation().type(d3.annotationLabel).annotations(legend));
+
+  const tag1 = {
+    x: xScale(1970) + config.margin.left,
+    y: yScale(8.3e9) + config.margin.bottom,
+    dir: "left",
+  };
+  graph.appendBadge(svg, tag1, showOilCrisis());
+
+  const tag2 = {
+    x: xScale(2020) + config.margin.left,
+    y: yScale(2.4e9) + config.margin.bottom,
+    w: width,
+    h: height,
+    dir: "top",
+  };
+  graph.appendBadge(svg, tag2, showOthers());
 }
 
 export default fuelCo2Emissions;

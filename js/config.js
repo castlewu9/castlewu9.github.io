@@ -24,8 +24,7 @@ const navItems = [
 ];
 
 const personInfo = {
-  name: "swpark5",
-  link: "#",
+  name: "Sung Woo Park",
   icon: "../styles/icons/person.svg",
 };
 

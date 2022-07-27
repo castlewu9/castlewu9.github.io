@@ -80,9 +80,9 @@ async function globalCo2Emissions() {
     .on("mouseout", () => graph.displayTooltip("none"))
     .on("mousemove", (d) => {
       if (d.year === "2015") {
-        graph.locateTooltip(d3.event.pageX * 0.5, d3.event.pageY);
+        graph.locateTooltip(width * 0.5 + config.margin.left, height * 0.4);
       } else if (d.year === "2020") {
-        graph.locateTooltip(d3.event.pageX * 0.6, d3.event.pageY * 1.2);
+        graph.locateTooltip(width * 0.5 + config.margin.left, height * 0.4);
       } else {
         graph.locateTooltip(d3.event.pageX + 10, d3.event.pageY - 10);
       }
@@ -92,6 +92,7 @@ async function globalCo2Emissions() {
 
   const annotations = [
     {
+      type: d3.annotationLabel,
       note: {
         title: "1850 - 1900",
         label: `With the onset of the Industrial Revolution, the use of fossil
@@ -127,6 +128,7 @@ async function globalCo2Emissions() {
       },
     },
     {
+      type: d3.annotationLabel,
       note: {
         label: "Paris Agreement",
         wrap: 200,
@@ -135,8 +137,10 @@ async function globalCo2Emissions() {
       y: yScale(36.2e9) + config.margin.bottom,
       dx: -15,
       dy: -20,
+      color: ["#E8336D"],
     },
     {
+      type: d3.annotationLabel,
       note: {
         label: "COVID pandemic dip",
       },
@@ -144,9 +148,25 @@ async function globalCo2Emissions() {
       y: yScale(34e9) + config.margin.bottom,
       dx: 5,
       dy: 25,
+      color: ["#E8336D"],
+    },
+    {
+      type: d3.annotationCalloutElbow,
+      note: {
+        title: "2000 -",
+        label: "World CO2 emissions speed up since 2000",
+      },
+      x: xScale(152) + config.margin.left,
+      y: yScale(24e9) + config.margin.bottom,
+      dx: 15,
+      dy: 40,
+      connector: {
+        end: "dot",
+      },
     },
   ];
-  graph.appendAnnotations(svg, annotations);
+
+  svg.append("g").call(d3.annotation().annotations(annotations));
 }
 
 export default globalCo2Emissions;

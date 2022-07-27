@@ -31,7 +31,8 @@
             for the countries with the highest emissions in 2020.
           </p>
           <p>
-            Click the buttons to see the production-based or consumption-based
+            Click the buttons to see <b>production-based</b> or
+            <b>consumption-based</b>
             per capita.
           </p>
           <div>
@@ -46,7 +47,7 @@
                   checked="checked"
                 />Production-based CO2 emission
               </label>
-              <label>
+              <label style="margin-right: 12px">
                 <input
                   type="radio"
                   name="radioBtnGroup"
@@ -55,6 +56,16 @@
                   style="margin-right: 6px"
                 />Consumption-based CO2 emission
               </label>
+              <label
+                ><input
+                  type="checkbox"
+                  name="radioBtnGroup"
+                  id="world-chkbox"
+                  value="world-chkbox"
+                  style="margin-right: 6px"
+                />
+                World</label
+              >
             </form>
           </div>
           <br />
@@ -77,14 +88,20 @@
       selectionGroup.forEach((sel) => {
         sel.onclick = (e) => {
           const { target } = e;
-          clearGraphs();
 
-          if (target.value == "production") {
-            console.log("production");
-            productionCo2PerCapita();
+          const worldChecked = document.getElementById("world-chkbox").checked;
+
+          clearGraphs();
+          if (target.value === "production") {
+            productionCo2PerCapita(worldChecked);
+          } else if (target.value === "consumption") {
+            consumptionCo2PerCapita(worldChecked);
           } else {
-            console.log("consumption");
-            consumptionCo2PerCapita();
+            if (document.getElementById("radio-prod-id").checked) {
+              productionCo2PerCapita(worldChecked);
+            } else {
+              consumptionCo2PerCapita(worldChecked);
+            }
           }
         };
       });

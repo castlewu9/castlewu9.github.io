@@ -26,11 +26,10 @@ function addDivider() {
   return divider;
 }
 
-function addPerson(name, icon, link) {
+function addPerson(name, icon) {
   const person = document.createElement("div");
   const to = document.createElement("a");
   to.className = "nav-author";
-  to.href = link;
 
   const image = document.createElement("img");
   image.src = icon;
@@ -71,13 +70,7 @@ function addSidebar(selectIndex) {
 
   sidebar.appendChild(navFrame);
   sidebar.append(addDivider());
-  sidebar.append(
-    addPerson(
-      config.personInfo.name,
-      config.personInfo.icon,
-      config.personInfo.link
-    )
-  );
+  sidebar.append(addPerson(config.personInfo.name, config.personInfo.icon));
 }
 
 export default addSidebar;
