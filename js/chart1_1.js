@@ -3,24 +3,16 @@ import * as graph from "./graph.js";
 
 const dataSource = "../data/co2-01-world.csv";
 
-function tooltipText(data) {
-  const emission = (data.count / 1e9).toFixed(2);
-
-  if (data.year === "2015") {
-    return `<b>The Paris Agreement</b><br/>The agreement was adopted in 2015 in
+function showParisAgreement() {
+  return `<b>The Paris Agreement</b><br/>The agreement was adopted in 2015 in
      consultation with 196 parties to mitigate climate change.<br/>
      <img src="./styles/images/COP21_2015.jpg" alt="2015" style="margin:5px;"/><br/>
-     "Photo from the Wikipedia: 2015 UN Climate Change Conference in Paris"
-     <br/><br/>Year: ${data.year}<br/>CO2 emissions: ${emission} billion ton`;
-  }
+     "Photo from the Wikipedia: 2015 UN Climate Change Conference in Paris"`;
+}
 
-  if (data.year === "2020") {
-    return `As the COVID-19 pandemic curbs economic and social activity across the world,
-     global carbon dioxide emissions in 2020 fell by approximately 6% year-over-year.
-     <br/><br/>Year: ${data.year}<br/>CO2 emissions: ${emission} billion ton`;
-  }
-
-  return `<b>CO2 emissions</b><br/>Year: ${data.year}<br/>${emission} billion ton`;
+function showCovidPandemic() {
+  return `As the COVID-19 pandemic curbs economic and social activity across the world,
+     global carbon dioxide emissions in 2020 fell by approximately 6% year-over-year.`;
 }
 
 async function globalCo2Emissions() {
@@ -75,22 +67,19 @@ async function globalCo2Emissions() {
     )
     .attr("cx", (_, i) => xScale(i))
     .attr("cy", (d) => yScale(d.count))
-    .attr("r", (d) => (d.year === "2015" || d.year === "2020" ? 5 : 2))
+    .attr("r", 2)
     .on("mouseover", () => graph.displayTooltip(null))
     .on("mouseout", () => graph.displayTooltip("none"))
     .on("mousemove", (d) => {
-      if (d.year === "2015") {
-        graph.locateTooltip(width * 0.5 + config.margin.left, height * 0.4);
-      } else if (d.year === "2020") {
-        graph.locateTooltip(width * 0.5 + config.margin.left, height * 0.4);
-      } else {
-        graph.locateTooltip(d3.event.pageX + 10, d3.event.pageY - 10);
-      }
+      graph.locateTooltip(d3.event.pageX + 10, d3.event.pageY - 10);
       graph.displayTooltip("block");
-      graph.updateTooltip(tooltipText(d));
+      const emission = (d.count / 1e9).toFixed(2);
+      graph.updateTooltip(
+        `<b>CO2 emissions</b><br/>Year: ${d.year}<br/>${emission} billion ton`
+      );
     });
 
-  const annotations = [
+  const description = [
     {
       type: d3.annotationLabel,
       note: {
@@ -128,29 +117,6 @@ async function globalCo2Emissions() {
       },
     },
     {
-      type: d3.annotationLabel,
-      note: {
-        label: "Paris Agreement",
-        wrap: 200,
-      },
-      x: xScale(164.8) + config.margin.left,
-      y: yScale(36.2e9) + config.margin.bottom,
-      dx: -15,
-      dy: -20,
-      color: ["#E8336D"],
-    },
-    {
-      type: d3.annotationLabel,
-      note: {
-        label: "COVID pandemic dip",
-      },
-      x: xScale(170) + config.margin.left,
-      y: yScale(34e9) + config.margin.bottom,
-      dx: 5,
-      dy: 25,
-      color: ["#E8336D"],
-    },
-    {
       type: d3.annotationCalloutElbow,
       note: {
         title: "2000 -",
@@ -166,7 +132,33 @@ async function globalCo2Emissions() {
     },
   ];
 
-  svg.append("g").call(d3.annotation().annotations(annotations));
+  svg.append("g").call(d3.annotation().annotations(description));
+
+  const tag1 = {
+    label: {
+      text: "Paris Agreement",
+      x: xScale(164.8) + config.margin.left - 83,
+      y: yScale(36.2e9) + config.margin.bottom - 24,
+    },
+    x: xScale(164.8) + config.margin.left,
+    y: yScale(36.2e9) + config.margin.bottom,
+    dir: "top",
+  };
+  graph.appendBadge(svg, tag1, showParisAgreement());
+
+  const tag2 = {
+    label: {
+      text: "COVID-19 pandemic dip",
+      x: xScale(170) + config.margin.left + 15,
+      y: yScale(34e9) + config.margin.bottom + 30,
+    },
+    x: xScale(170) + config.margin.left,
+    y: yScale(34e9) + config.margin.bottom,
+    dir: "bottom",
+  };
+
+  graph.appendBadge(svg, tag1, showParisAgreement());
+  graph.appendBadge(svg, tag2, showCovidPandemic());
 }
 
 export default globalCo2Emissions;

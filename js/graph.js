@@ -89,7 +89,19 @@ function appendBadge(svg, tag, htmlText) {
         x: tag.dir === "left" || tag.dir === "right" ? tag.dir : null,
         y: tag.dir === "top" || tag.dir === "bottom" ? tag.dir : null,
       },
-      color: ["#E8336D"],
+      color: [config.badgeColor],
+    },
+  ];
+
+  const label = [
+    {
+      type: d3.annotationLabel,
+      note: {
+        label: tag.label.text,
+      },
+      x: tag.label.x,
+      y: tag.label.y,
+      color: [config.badgeColor],
     },
   ];
 
@@ -107,7 +119,7 @@ function appendBadge(svg, tag, htmlText) {
     )
     .on("mousemove", () => {
       let x = w * 0.5 + config.margin.left;
-      const y = h * 0.4;
+      const y = h * 0.45;
 
       if (x < d3.event.pageX && x + 420 >= d3.event.pageX) {
         x = d3.event.pageX + 10;
@@ -118,6 +130,8 @@ function appendBadge(svg, tag, htmlText) {
       d3.select(`#${tooltipElementId}`).style("display", "block");
       d3.select(`#${tooltipElementId}`).html(htmlText);
     });
+
+  svg.append("g").call(d3.annotation().annotations(label));
 }
 
 function displayTooltip(display) {

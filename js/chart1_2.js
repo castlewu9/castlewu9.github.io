@@ -4,7 +4,7 @@ import * as graph from "./graph.js";
 const dataSource = "../data/co2-01-fuel.csv";
 
 function showOilCrisis() {
-  return `<b>1973 & 1979 Oil Crises</b><br/>The first oil shock began in October 1973 to
+  return `<b>1973 & 1979 Oil Shocks</b><br/>The first oil shock began in October 1973 to
    target nations supported Israel during the Yom Kippur War.
    In March 1974, the price of oil had risen nearly 300%, and caused an oil crisis.<br/>
    <img src="./styles/images/Crude_oil_prices_since_1861.png" alt="oil" style="margin:5px;"/><br/>
@@ -132,6 +132,7 @@ async function fuelCo2Emissions() {
     {
       type: d3.annotationCallout,
       note: {
+        title: "Oil, Coal, and Gas",
         label:
           "Oil, coal, and gas account for the majority of total CO2 emissions.",
         wrap: 180,
@@ -211,6 +212,11 @@ async function fuelCo2Emissions() {
     .call(d3.annotation().type(d3.annotationLabel).annotations(legend));
 
   const tag1 = {
+    label: {
+      text: "Oil Shock",
+      x: xScale(1970) + config.margin.left - 13,
+      y: yScale(8.3e9) + config.margin.bottom - 37,
+    },
     x: xScale(1970) + config.margin.left,
     y: yScale(8.3e9) + config.margin.bottom,
     dir: "left",
@@ -218,6 +224,11 @@ async function fuelCo2Emissions() {
   graph.appendBadge(svg, tag1, showOilCrisis());
 
   const tag2 = {
+    label: {
+      text: "Others",
+      x: xScale(2020) + config.margin.left,
+      y: yScale(2.4e9) + config.margin.bottom - 50,
+    },
     x: xScale(2020) + config.margin.left,
     y: yScale(2.4e9) + config.margin.bottom,
     w: width,

@@ -7,9 +7,10 @@ async function productionCo2PerCapita(worldChecked) {
   const data = await d3.csv(dataSource);
   const n = data.length;
 
+  console.log(data.columns);
   const columns = worldChecked
     ? data.columns.slice(1, 7)
-    : data.columns.slice(2, 7);
+    : data.columns.slice(1, 6);
 
   const capitaData = columns.map((id) => {
     return {
@@ -92,31 +93,18 @@ async function productionCo2PerCapita(worldChecked) {
 
   const description = [
     {
-      type: d3.annotationLabel,
-      note: {
-        label: `The production-based, also called "territorial basis", is usually measured
-         based on the amount of C02 emissions produced in each country.
-         This method is calculated based on the emissions reported by each country and
-         used as a national and international metric.`,
-        wrap: 360,
-        padding: 3,
-      },
-      x: xScale(1845) + config.margin.left,
-      y: yScale(21) + config.margin.bottom,
-    },
-    {
       type: d3.annotationCallout,
       note: {
-        title: `US`,
+        title: "Inequalities in per capita emissions",
         label: `As of 2020, Qatar ranks first in CO2 emission per capita (37.02 tons).
          Compared to the US (14.24 tons), it is about 2.6 times, but considering
          the population and geolocation factors, it was excluded.`,
-        wrap: 280,
+        wrap: 300,
         padding: 3,
       },
-      x: xScale(1881) + config.margin.left,
-      y: yScale(5) + config.margin.bottom,
-      dx: -10,
+      x: xScale(1898) + config.margin.left,
+      y: yScale(9) + config.margin.bottom,
+      dx: -15,
       dy: -10,
       connector: {
         end: "dot",
@@ -183,6 +171,25 @@ async function productionCo2PerCapita(worldChecked) {
   svg
     .append("g")
     .call(d3.annotation().type(d3.annotationLabel).annotations(legend));
+
+  const tag = {
+    label: {
+      text: "Production-based",
+      x: xScale(1833) + config.margin.left,
+      y: yScale(20.5) + config.margin.bottom,
+    },
+    x: xScale(1833) + config.margin.left,
+    y: yScale(22) + config.margin.bottom,
+    dir: "bottom",
+  };
+  graph.appendBadge(
+    svg,
+    tag,
+    `The production-based, also called "territorial basis", is usually measured
+  based on the amount of C02 emissions produced in each country.
+  This method is calculated based on the emissions reported by each country and
+  used as a national and international metric.`
+  );
 }
 
 export default productionCo2PerCapita;

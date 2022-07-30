@@ -187,6 +187,11 @@ async function countryCo2Emissions() {
     .call(d3.annotation().type(d3.annotationLabel).annotations(legend));
 
   const tag = {
+    label: {
+      text: "2000 - 2020",
+      x: xScale(2020) + config.margin.left - 33,
+      y: yScale(11.0e9) + config.margin.bottom - 24,
+    },
     x: xScale(2020) + config.margin.left + 30,
     y: yScale(11.0e9) + config.margin.bottom,
     dir: "top",

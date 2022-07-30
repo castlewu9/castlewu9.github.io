@@ -9,7 +9,7 @@ async function consumptionCo2PerCapita(worldChecked) {
 
   const columns = worldChecked
     ? data.columns.slice(1, 7)
-    : data.columns.slice(2, 7);
+    : data.columns.slice(1, 6);
 
   const capitaData = columns.map((id) => {
     return {
@@ -92,30 +92,17 @@ async function consumptionCo2PerCapita(worldChecked) {
 
   const description = [
     {
-      type: d3.annotationLabel,
-      note: {
-        label: `The concept of "consumption-based" emissions is adjusted to account for cross-border trade.
-         When importing or exporting products, all CO2 emissions resulting from the production of products are
-         calculated by including or excluding.
-         So, consumption-based emissions can reflect the lifestyle of citizens of each country.`,
-        wrap: 400,
-        padding: 3,
-      },
-      x: xScale(2002) + config.margin.left,
-      y: yScale(20) + config.margin.bottom,
-    },
-    {
       type: d3.annotationCallout,
       note: {
-        label: `Countries show a similar pattern in the per capita consumption-based.
-         However, CO2 emissions per capita slightly decline in the US and Japan while increasing in China.`,
-        wrap: 290,
+        title: "Trend of consumption-based emissions",
+        label: `CO2 emissions per capita slightly decline in the US and Japan while increasing in Russia and China.`,
+        wrap: 320,
         padding: 3,
       },
-      x: xScale(2011) + config.margin.left,
-      y: yScale(20) + config.margin.bottom,
-      dx: 10,
-      dy: -10,
+      x: xScale(2010) + config.margin.left,
+      y: yScale(12) + config.margin.bottom,
+      dx: -50,
+      dy: -35,
       connector: {
         end: "dot",
       },
@@ -181,6 +168,25 @@ async function consumptionCo2PerCapita(worldChecked) {
   svg
     .append("g")
     .call(d3.annotation().type(d3.annotationLabel).annotations(legend));
+
+  const tag = {
+    label: {
+      text: "Consumption-based",
+      x: xScale(1994.5) + config.margin.left,
+      y: yScale(22.4) + config.margin.bottom,
+    },
+    x: xScale(1994.5) + config.margin.left,
+    y: yScale(24) + config.margin.bottom,
+    dir: "bottom",
+  };
+  graph.appendBadge(
+    svg,
+    tag,
+    `The concept of "consumption-based" emissions is adjusted to account for cross-border trade.
+    When importing or exporting products, all CO2 emissions resulting from the production of products are
+    calculated by including or excluding.
+    So, consumption-based emissions can reflect the lifestyle of citizens of each country.`
+  );
 }
 
 export default consumptionCo2PerCapita;

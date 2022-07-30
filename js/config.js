@@ -37,4 +37,6 @@ const margin = {
 
 const gap = { width: 20, height: 60 };
 
-export { navTitle, navItems, personInfo, margin, gap };
+const badgeColor = "#E8336D";
+
+export { navTitle, navItems, personInfo, margin, gap, badgeColor };
