@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width" />
     <title>CS416 Narrative Visualization</title>
     <link href="./styles/css/styles.css" rel="stylesheet" />
+    <link href="./styles/css/chart.css" rel="stylesheet" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"
+      integrity="sha512-iBAeBWWWFb8HqSBcrqcz98iIpuVH1la39dEYHtyQ/pGpeCQTQVvLJOWAuhv2Q7JSHp9k7hWA7sGxU3hHJe+tFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </head>
 
   <body>
@@ -13,63 +21,71 @@
       <div id="divider" class="page-divider"></div>
       <div id="content" class="content-frame">
         <div id="content-desc">
-          <h1>Visualization of Carbon Dioxide Emissions</h1>
+          <h1>Global CO2 emissions</h1>
+          <h3></h3>
+          <p>
+            In this chart we see the growth of global emissions from the
+            mid-19th century through to today. Carbon dioxide (CO2) emissions in
+            2020 amounted to approximately 35 billion tons, an increase of more
+            than <b>150</b> times compared to 1850.
+          </p>
+          <p>
+            You can see the detailed information by mouse over dots. Also, when
+            you click on <b>CO2 emissions per fuel type</b> button, you can
+            check the CO2 emissions from each fossil fuel.
+          </p>
+          <div>
+            <form name="radioForm">
+              <label style="margin-right: 10px">
+                <input
+                  type="radio"
+                  name="radioBtnGroup"
+                  value="global"
+                  id="radio-global-id"
+                  style="margin-right: 6px"
+                  checked="checked"
+                />Global CO2 emissions
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="radioBtnGroup"
+                  value="fuel"
+                  id="radio-fuel-id"
+                  style="margin-right: 6px"
+                />CO2 emissions per fuel type
+              </label>
+            </form>
+          </div>
           <br />
-          <h3>Objective</h3>
-          <p>
-            This project aims to show Carbon dioxide (CO2) emissions from fossil
-            fuels and industry since the early 1800 per year, worldwide, in the
-            country, and by capita.
-          </p>
-          <br />
-          <h3>Design</h3>
-          <p>
-            The webpage follows an interactive slideshow, one of the narrative
-            visualization structures from the CS416 Data Visualization class of
-            UIUC. This allows users to navigate the pages and view changes in
-            CO2 emissions by various factors.
-          </p>
-          <p>
-            Users can navigate the pages by clicking list items in the left
-            sidebar. The main page is the <b>Introduction</b>, and the sidebar
-            allows users to navigate through all the pages in any order and
-            quickly return to the first page.
-          </p>
-          <p>
-            The webpage is designed to best fit the desktop. When the window
-            size of the browser changes, users can use the refresh button to
-            redraw graphs on each page in order to fit them into a new window
-            size.
-          </p>
-          <br />
-          <h3>Data</h3>
-          <p>
-            The CO2 dataset includes annual carbon dioxide emissions for each
-            country in the world, including emissions per capita and fuel types
-            such as oil, coal, natural gas, and etc. The original data can be
-            downloaded from the
-            <a
-              href="https://www.globalcarbonproject.org/carbonbudget/21/data.htm"
-              >Global Carbon Project</a
-            >.
-          </p>
-
-          <br />
-          <h3>By</h3>
-          <ul>
-            <li>Sung Woo Park</li>
-            <li>NetID: swpark5</li>
-            <li>Date: July 2022</li>
-            <li>Course: CS 416 Data Visualization</li>
-          </ul>
         </div>
+        <svg id="content-graph" width="0" height="0"></svg>
+        <div id="content-tooltip" class="tooltip"></div>
       </div>
     </main>
 
     <script type="module">
       import addSidebar from "./js/navBar.js";
+      import { clearGraphs } from "./js/graph.js";
+      import globalCo2Emissions from "./js/chart1_1.js";
+      import fuelCo2Emissions from "./js/chart1_2.js";
 
       addSidebar(0);
+      globalCo2Emissions();
+
+      const selectionGroup = document.radioForm.radioBtnGroup;
+      selectionGroup.forEach((sel) => {
+        sel.onclick = (e) => {
+          const { target } = e;
+          clearGraphs();
+
+          if (target.value === "global") {
+            globalCo2Emissions();
+          } else {
+            fuelCo2Emissions();
+          }
+        };
+      });
     </script>
   </body>
 </html>

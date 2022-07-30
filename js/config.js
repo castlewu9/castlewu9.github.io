@@ -2,13 +2,8 @@ const navTitle = "Annual CO2 emissions";
 
 const navItems = [
   {
-    text: "Introduction",
-    to: "index.html",
-    icon: "../styles/icons/bar-chart.svg",
-  },
-  {
     text: "Global CO2 emissions",
-    to: "page1.html",
+    to: "index.html",
     icon: "../styles/icons/one.svg",
   },
   {
